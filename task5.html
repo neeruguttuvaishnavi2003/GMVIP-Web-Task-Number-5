@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Student Management System</title>
+    <style>
+      body {
+        font-family:'Times New Roman', Times, serif;
+        margin: 0;
+        padding: 20px;
+        background-repeat: no-repeat;
+        background-size: cover;  
+        background-image: url("https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80");
+       
+       background-size: 100% 100%;
+       background-origin: border-box;
+       background-repeat: no-repeat;
+      }
+      h1 {
+        text-align: center;
+        color: rgb(176, 22, 22);
+        
+      }
+      form,
+      .table-container {
+        margin: 0 auto; 
+        max-width: 600px;
+        background-color:rgba(145, 142, 141, 0.636);
+        padding: 20px;
+        font-weight: bold;
+      }
+      form label,
+      form input {
+        display: block;
+        margin-bottom: 10px;
+      }
+      form input[type="text"],
+      form input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid whitesmoke;
+        border-radius: 4px;
+        
+      }
+      form button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color:rgb(128, 0, 107);
+        color: azure;
+        
+      }
+      #resultTable {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      #resultTable th,
+      #resultTable td {
+        padding: 10px;
+        border: 1px solid #ffffff;
+        text-align: center;
+        color: black;
+        
+      }
+      .edit-button {
+        background-color: rgb(128, 35, 103);
+        color: #ffffff;
+        padding: 5px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .edit-button:hover {
+        background-color: #8d401c;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Student Management System</h1>
+    <form id="resultForm">
+      <label for="name">Student Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="Reg Number">Reg Number:</label>
+      <input type="text" id="roll" name="roll" required />
+
+      <label for="HTML">HTML :</label>
+      <input
+        type="number"
+        id="HTML"
+        name="HTML"
+        min="0"
+        max="100"
+        required
+      />
+
+      <label for="CSS">CSS :</label>
+      <input
+        type="number"
+        id="CSS"
+        name="CSS"
+        min="0"
+        max="100"
+        required
+      />
+
+      <label for="JavaScript">JavaScript :</label>
+      <input
+        type="number"
+        id="JavaScript"
+        name="JavaScript"
+        min="0"
+        max="100"
+        required
+      />
+
+      <button type="submit">Add Result</button>
+    </form>
+
+    <div class="table-container">
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Roll No</th>
+            <th>HTML Marks</th>
+            <th>CSS Marks</th>
+            <th>JavaScript Marks</th>
+            <th>Total</th>
+            <th>Percentage</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const resultForm = document.getElementById("resultForm");
+      const resultTable = document.getElementById("resultTable");
+      const tbody = resultTable.querySelector("tbody");
+
+      resultForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const nameInput = document.getElementById("name");
+        const rollInput = document.getElementById("roll");
+        const HTMLInput = document.getElementById("HTML");
+        const CSSInput = document.getElementById("CSS");
+        const JavaScriptInput = document.getElementById("JavaScript");
+
+        const name = nameInput.value;
+        const roll = rollInput.value;
+        const HTML= HTMLInput.value;
+        const CSS = CSSInput.value;
+        const JavaScript = JavaScriptInput.value;
+
+        const total =
+          parseInt(HTML) + parseInt(CSS) + parseInt(JavaScript);
+        const percentage = ((total / 300) * 100).toFixed(2);
+
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${roll}</td>
+        <td>${HTML}</td>
+        <td>${CSS}</td>
+        <td>${JavaScript}</td>
+        <td>${total}</td>
+        <td>${percentage}%</td>
+        <td>
+          <button class="edit-button" onclick="editResult(this)">Edit</button>
+        </td>
+      `;
+
+        tbody.appendChild(newRow);
+
+        nameInput.value = "";
+        rollInput.value = "";
+        HTMLInput.value = "";
+        CSSInput.value = "";
+        JavaScriptInput.value = "";
+      });
+
+      function editResult(button) {
+        const row = button.parentNode.parentNode;
+        const cells = row.querySelectorAll("td");
+
+        const name = cells[0].textContent;
+        const roll = cells[1].textContent;
+        const HTML= cells[2].textContent;
+        const CSS= cells[3].textContent;
+        const JavaScript = cells[4].textContent;
+
+        const nameInput = document.getElementById("name");
+        const rollInput = document.getElementById("roll");
+        const HTMLInput = document.getElementById("HTML");
+        const CSSInput = document.getElementById("CSS");
+        const JavaScriptInput = document.getElementById("JavaScript");
+
+        nameInput.value = name;
+        rollInput.value = roll;
+        HTML.value = HTML;
+        CSS.value = CSS;
+        JavaScriptInput.value = JavaScript;
+
+        row.remove();
+      }
+    </script>
+  </body>
+</html>
